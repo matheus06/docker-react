@@ -1,0 +1,22 @@
+# Use a existing docker image as a base
+FROM node:alpine
+
+#work dir on container
+WORKDIR /app
+
+# Copy only package.json to minimize cache busting and rebuilds
+COPY ./package.json ./
+# Download and install dependency
+RUN npm install
+#Copy all files
+COPY . .
+
+# Tell the image what to do when it starts as a container
+CMD [ "npm", "run", "start" ]
+
+#docker build -f Dockerfile.dev .
+#docker run -it -p 3000:3000 containerId
+
+# -v without : do not try to map
+#docker run -it -p 3000:3000 -v /app/modules -v $(pwd):/app containerId
+#docker exec -it containerId npm run test
